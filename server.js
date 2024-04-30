@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 // 模組
 const Todo = require('./models/todo');
 const getTodo = require('./getTodo');
+const postTodo = require('./postTodo');
 
 mongoose
     .connect("mongodb://127.0.0.1:27017/todolistTeam")
@@ -30,6 +31,9 @@ const requestListener = async (req, res) => {
         getTodo(req, res);
     } else if (req.url == "/todos" && req.method == "POST") {
         // postTodo.js
+        req.on('end', chunk => {
+            postTodo(req, res, body);
+          })
     } else if (req.url == "/todos" && req.method == "DELETE") {
         // deleteTodo.js
     } else if (req.url.startsWith("/todos/") && req.method == "DELETE") {
